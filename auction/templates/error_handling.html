@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Error message for page not found -->
+<div class="pagePadding" style="text-align: center;">
+    <h1>An error occurred - page not found!</h1>
+    <br>
+    <p><a href="{{url_for('main.index')}}">Click here to return back to the home page.</a></p>
+</div>
+
+{% endblock %}

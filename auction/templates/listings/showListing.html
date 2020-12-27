@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+<main>
+  <div class="pagePadding">
+    <div class="container-fluid px-3">
+      <div class="row">
+        <div class="col-lg-9 md-9 sm-9">
+          <img src={{listing.instrument.image}} class="d-block w-100 cc">
+          <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="carousel-caption carousel-caption-listing d-none d-md-block">
+                  <p style="padding-top: 5px;">Photo (1/1)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Show bid details-->
+        <div class="col-lg-3" style="text-align:center; word-wrap: break-word;">
+          <h2>{{listing.listTitle}}</h2>
+          <hr>
+          <div class="py-0">
+            <p>Listed by: <i>{{listing.user.name}}</i></p>
+            <p>Listed on: <i>{{listing.listingDate.strftime('%d/%m/%Y')}}</i></p>
+            <hr>
+            <p>Starting bid price: <i>${{listing.startBid}}</i></p>
+            <p>Highest bid: <i>${{listing.highestBid}}</i></p>
+            <p>Total number of bids: <i>{{listing.totalNumberOfBids}}</i></p>
+            <hr>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <!-- check if there are any messages -->
+              <div class="container-fluid">
+                  <div class="row mt-3 mb-3">
+                      <div class="col-md-12">
+                          {% for message in messages %}
+                            {% if "higher than" not in message and 
+                          "successfully placed" not in message %}
+                              <!--loop through the messages-->
+                              <div class="alert alert-info" style="text-align: left;">{{ message }}</div>
+                              <!--display as alert-->
+                            {% endif %}
+                          {% endfor %}                       
+                      </div>
+                  </div>
+              </div>
+              {% endif %}
+            {% endwith %}
+           
+            <!--Show auction status and if auction is closed, show winner's name and their highest bid-->
+            {% if listing.auctionStatus == True %}
+                <p>Auction status: <b><i style="color: rgb(5, 194, 30);">Open</i></b></p>
+            {% else %}
+              <p>Auction status: <b><i style="color: rgb(194, 5, 5);">Closed</i></b></p>
+              {% if listing.totalNumberOfBids > 0 %}
+                <p>Winner: <b>{{bidWinner.user.name}}</b></p>        
+                <p>Winning bid: <b>${{listing.highestBid}}</b></p>
+              {% else %}
+                <p><b>There were no bids placed on this listing.</b></p>
+              {% endif %}
+            {% endif %}
+
+            <!--Add or remove from watchlist buttons, and close auction button if listing belongs to current user -->
+            {% if current_user != listing.user %}
+              {% if current_user.is_authenticated %}
+                {% if listing.auctionStatus != False %}
+                  {% if not alreadyOnWatchlist %}
+                    {{wtf.quick_form(wl_form)}} 
+                  {% else %}
+                    {{wtf.quick_form(del_form)}}          
+                  {% endif %}
+                {% endif %}
+              {% endif %}     
+            {% else %}
+              {% if listing.auctionStatus == True %}
+                <button type="button" class="btn btn-outline-primary">
+                  <a class="nav-link py-0" href="{{url_for('listing.close_auction', id=listing.id)}}">Close Auction</a>
+                </button>
+              {% endif %}
+            {% endif %}        
+          </div>
+        </div>
+      </div>
+
+      <!--Show listing's instrument details-->
+      <div class="row py-1">
+        <div class="offset-lg-0 col-lg-6 md-6 sm-6 px-4 sideBorder">
+          <h5><strong>Description</strong></h5>
+          <p class="py-2" style="word-wrap: break-word;">{{listing.instrument.description}}</p>
+        </div>
+        <div class="col-lg-3 md-3 sm-3 sideBorder">
+          <p><b>Instrument: </b>{{listing.instrument.instrument}}</p>
+          <p><b>Model: </b>{{listing.instrument.model}}</p>
+          <p><b>Brand: </b>{{listing.instrument.brand}}</p>
+          <p><b>Year: </b>{{listing.instrument.year}}</p>
+          <p><b>Colour: </b>{{listing.instrument.colour}}</p>
+          <p><b>Category: </b>{{listing.instrument.category}}</p>
+        </div>
+
+        <!--Flash messages for bid amounts/input-->
+        <div class="col-lg text-center">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %} 
+              {% for message in messages %} 
+                {% if success and "No winner" not in message %}
+                  <div class="alert alert-success" style="text-align: center;">{{message}}</div>
+                {% elif not success and "No winner" not in message %}
+                  {% if listing.totalNumberOfBids == 0 %}
+                    <div class="alert alert-danger" style="text-align: center;">{{message}} ${{startBid.startBid}}!</div>
+                  {% else %}
+                    <div class="alert alert-danger" style="text-align: center;">{{message}} ${{listing.highestBid}}!</div>
+                  {% endif %}
+                {% endif %} 
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          
+          <!--Show bid status and bidding history if listing belongs to current user-->
+          {% for owner in listingOwner %}
+            {% if current_user.id != owner.user_id %}
+              {% if current_user.is_authenticated %}
+                {% if listing.auctionStatus %}
+                  {{wtf.quick_form(bid_form)}}
+                {% else %}
+                  <h5><b>Bidding disabled!</b></h5>
+                  <p>Auction is closed.</p>
+                {% endif %}
+              {% endif %}     
+            {% else %} 
+              <b>Bid History:</b><br>
+              {% if bidHistory %}
+                <select style="font-size: 10px;">
+                  {% for bids in bidHistory %}
+                      <option>Username: {{bids.user.name}} | Bid: ${{bids.bidAmount}} | Date: {{bids.bidDate.strftime('%d/%m/%Y')}}<br></option>
+                  {% endfor %}
+                </select>
+              {% else %}
+                <i>No bids placed...</i>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          <!--Show login button if user is not logged in and wants to bid on item-->
+          {% if not current_user.is_authenticated %}
+            <p>You must be logged in to bid on or add this listing to your watchlist!</p>
+            <button type="button" class="btn btn-outline-light">
+              <a class="nav-link py-0" href="{{url_for('auth.login')}}">Log in</a>
+            </button>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg text-center px-5">
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

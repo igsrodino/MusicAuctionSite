@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+  <main>
+    <div class="pagePadding">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg text-center">
+            <h2>My Watchlist ({{watchlist.count()}}):</h2>
+            <hr>
+          </div>
+        </div>
+
+        <!--Display listing and details in watchlist if there are any-->
+        {% if watchlist %}
+          <div class="row" style="padding-top: 10px;">
+            {% for watchlist_item in watchlist %}
+              <div class="col-lg-4 md-4 sm-4 px-5 text-center">
+                <div class="card" style="width: 20rem;">
+                  <img src="{{watchlist_item.listing.instrument.image}}" class="card-img-top">
+                  <div class="card-body">
+                    <h5 class="card-title">{{watchlist_item.listing.listTitle}}</h5>
+                    <div class="card-text" style="padding-top: 10px;">             
+                      <p>Total number of bids:<b> {{watchlist_item.listing.totalNumberOfBids}}</b></p>
+                      <p>Current highest bid:<b> ${{watchlist_item.listing.highestBid}}</b></p>  
+                      {% if watchlist_item.listing.auctionStatus %}
+                        <p>Auction status: <b>Open</b></p>
+                      {% else %}
+                        <p>Auction status: <b>Closed</b></p>
+                      {% endif %}                                                           
+                      <p>Added to watchlist on: <b>{{watchlist_item.addedToWatchlistDate.strftime('%d/%m/%Y')}}</b></p>
+                      <p style="padding-top: 5px;"></p>
+                      <a href="{{url_for('listing.show', id = watchlist_item.listing.id)}}" class="btn btn-primary">View Listing</a>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+            {% endfor %}        
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+

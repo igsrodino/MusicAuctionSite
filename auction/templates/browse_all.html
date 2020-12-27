@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container pagePadding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg text-center">
+                {% for totalListings in listOfResultLengths %}
+                    {% if category|int == loop.index %}
+                        <h2>Search results ({{totalListings}}):</h2>
+                    {% endif %}
+                {% endfor %}
+                <hr>
+            </div>
+        </div>
+
+        {% if listings %}
+            <div class="row justify-content-center" style="padding-top: 10px;">
+                {% for listing in listings %}
+                    {% if category == "1"  %}
+                        <!-- Search all categories-->
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "2" and listing.instrument.category == "Acoustic Guitar" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "3" and listing.instrument.category == "Electric/Rock Guitar" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "4" and listing.instrument.category == "Bass Guitar" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "5" and listing.instrument.category == "Piano/Keyboard" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "6" and listing.instrument.category == "Drums & Percussion" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "7" and listing.instrument.category == "Electronic/MIDI/Synth" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "8" and listing.instrument.category == "Orchestra/Strings" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "9" and listing.instrument.category == "Jazz/Woodwind" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "10" and listing.instrument.category == "Studio Hardware/Recording" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "11" and listing.instrument.category == "DJ Mixers/CDJ" %}
+                        {% include "browse_reuse.html" %}
+                    {% elif category == "12" and listing.instrument.category == "Other" %}
+                        {% include "browse_reuse.html" %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

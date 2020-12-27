@@ -1,0 +1,205 @@
+/* Align text to left */
+.alignLeft {
+    text-align: justify; 
+}
+
+/* Landing page jumbotron design/image */
+.jumbotron {
+    background-image: url("../img/jumbo.jpeg");
+    background-size: cover;
+    background-position: center;
+    height: 550px;
+    opacity: 0.99;
+}
+
+.jumboText {
+    color: White;
+    text-align: center;
+
+        display:block;
+        width:15px;
+        word-wrap:break-word; 
+    
+}
+
+
+body {
+    font-family: "Century Gothic";
+    background-color: rgb(34, 34, 34, 0.1);
+}
+
+
+
+button {
+    color:white;
+}
+
+
+
+
+h1 {
+    text-align: center;
+}
+
+
+h2, h3, h4 {
+    font-weight: bold;
+}
+
+.overwriteFont {
+    font-weight: normal !important;
+}
+
+.listinghr {
+    border-top: 2px dashed gray;
+}
+
+
+.imgListingHeight {
+    height: 20%;
+}
+
+
+/* Sets vertical padding on each page */
+.pagePadding {
+    padding-top: 115px;
+    padding-bottom: 40px;
+}
+
+
+.dropdown-item:hover {
+    background-color: rgb(34, 34, 34);
+    color: white; 
+}
+
+
+
+
+/* Navbar colour schemes */
+.navbarText {
+    color: white;
+}
+.navbar-custom { 
+    background-color: rgba(230, 152, 36, 0.8);
+} 
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+}
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255, 0.7);
+}
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
+
+.content-holder {
+    position: absolute;
+    left: 50% !important;
+    z-index: 10;
+    color: #fff;
+    text-align: center;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    padding: 50px
+  }
+
+
+
+footer {
+    background:rgba(230, 152, 36, 0.8);
+    
+}
+
+
+/* Buttons */
+.btn {
+    background-color: rgb(34, 34, 34);
+    color: white;
+    border-color: rgb(13, 141, 135); 
+}
+
+.btn:hover {
+    background-color: black;
+    border-color: rgb(13, 141, 135); 
+    color: white;
+}
+
+.btn:active {
+    box-shadow: rgb(13, 141, 135) !important;
+    background: rgb(13, 141, 135) !important;
+}
+
+
+
+
+
+
+/* Carousel Styling/Setup */
+.carousel-caption-index {
+    position: absolute;
+    left: auto;
+    top: 0;
+    background-color: rgba(230, 152, 36, 0.5);
+    text-align: center;
+    width: 27%;
+    height: 47%;
+    opacity: 1;
+    bottom: 0;
+    right: 0;
+}
+
+.carousel-caption-listing {
+    position: relative;
+    left: auto;
+    right: auto;
+    color: rgb(34, 34, 34);
+}
+
+
+/* Category */
+.list-group-mine .list-group-item:hover {
+    border: 1px solid rgba(230, 152, 36, 0.5);
+    color: rgba(230, 152, 36, 1);
+  }
+
+
+
+
+.sideBorder, hr {
+  border-right-style: solid;
+  border-width: 1.5px;
+  border-color: rgb(187, 187, 187);
+}
+
+
+a.list-group-item.active small {
+    color:#fff;
+}
+.stars {
+    margin:20px auto 1px;    
+}
+
+
+
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.cc { 
+    width: 100%;
+    height: 46vw;
+    object-fit: cover;
+}
+
+.absCarPos {
+    width: 100%;
+    height: 49vw;
+    object-fit: cover;
+}

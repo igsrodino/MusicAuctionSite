@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block content %}
+  <main>
+    <div class="pagePadding">
+      <div class="container px-4">
+
+        <!-- Row 1 -->
+        <div class="row text">
+          <div class="col-md text-center">
+            <h2>Create Listing</h2>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="row py-2">
+          <div class="offset-md-2 col-lg-8 md-8 sm-8 text-center"><br>
+            <p class="lead"><i>Note: It's important to ensure the information you provide is correct, and includes a clear photo of the instrument you are listing.</i></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md py-0">
+            <hr class="listinghr my-4">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12" style="text-align: center; padding-bottom: 45px;">
+            <h4 style="text-align: center; font-weight: bold;">Enter the details of the listing below:</h4>
+          </div>
+        </div>
+
+        <!-- Flash message for succesful listing creation or not -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %} 
+          <div class="row">
+            <div class="offset-md-4 col-md-4" style="padding-bottom: 13px;">
+              {% for message in messages %} 
+                <div class="alert alert-success" style="text-align: center;">{{ message }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Forms for user input for new listing details -->
+        <div class="row">
+          <div class="offset-md-3 col-md-6">
+            {{wtf.quick_form(form)}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
